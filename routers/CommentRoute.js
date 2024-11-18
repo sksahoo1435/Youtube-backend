@@ -3,7 +3,7 @@ const { AddComments, getComments, getCommentById, updateComment, deleteComment }
 const CommentRouter = express.Router();
 
 CommentRouter.post('/', AddComments)
-CommentRouter.get('/', getComments)
+CommentRouter.get('/all/:videoId', getComments)
 CommentRouter.get('/:id', getCommentById)
 CommentRouter.put('/:id', updateComment)
 CommentRouter.delete('/:id', deleteComment)

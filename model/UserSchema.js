@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const UserSchema = new mongoose.Schema({
     userId: {
         type: String,
-        required: true,
         unique: true,
     },
     username: {
@@ -13,12 +12,12 @@ const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true, 
+        unique: true,
         match: [/.+\@.+\..+/, "Please enter a valid email address"],
     },
     password: {
         type: String,
-        required: true, 
+        required: true,
     },
     avatar: {
         type: String,
@@ -26,8 +25,15 @@ const UserSchema = new mongoose.Schema({
     },
     channels: [
         {
-            type: String,
-            ref: 'Channel',
+            id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Channel',
+                required: true,
+            },
+            name: {
+                type: String,
+                required: true,
+            },
         }
     ],
 }, {

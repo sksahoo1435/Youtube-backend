@@ -23,7 +23,7 @@ exports.AddChannel = async (req, res) => {
 
         const users = await User.findById(owner)
 
-        users.channels.push(newChannel._id)
+        users.channels.push({ id: newChannel._id, name: newChannel.channelName })
 
         await users.save();
         await newChannel.save();

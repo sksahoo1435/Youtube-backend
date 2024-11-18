@@ -41,7 +41,25 @@ exports.GetUser = async (req, res) => {
 
     } catch (error) {
         return res.status(500).json({ message: 'An error occurred', error });
-        
+
+    }
+}
+
+exports.GetUserNameById = async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const user = await User.findById(id);
+        const userData = {
+            username: user.username,
+            userId: user.userId,
+            user_profile: user.avatar,
+        }
+        return res.status(200).json({ message: "User Fetched Successfully !", user: userData })
+
+    } catch (error) {
+        return res.status(500).json({ message: 'An error occurred', error });
+
     }
 }
 

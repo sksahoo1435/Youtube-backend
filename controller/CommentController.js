@@ -27,14 +27,25 @@ exports.AddComments = async (req, res) => {
 }
 
 exports.getComments = async (req, res) => {
-    try {
-        const comments = await Comment.find();
+    const { videoId } = req.params;
 
-        return res.status(200).json({ message: "Comments Fetched Successfully.", comment: comments })
+    try {
+        const video = await Video.findById(videoId).populate('comments');
+
+        if (!video) {
+            return res.status(404).json({ message: "Video not found" });
+        }
+
+        const comments = await Comment.find({ videoId: videoId });
+
+        return res.status(200).json({
+            message: "Comments fetched successfully.",
+            comments
+        });
     } catch (error) {
         return res.status(500).json({ message: 'An error occurred', error });
     }
-}
+};
 
 exports.getCommentById = async (req, res) => {
     const id = req.params.id;
