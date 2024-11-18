@@ -34,6 +34,11 @@ app.use(
   })
 );
 
+app.get('/', (req, res) => {
+    res.status(200).json({ message: 'YouTube Backend is running successfully.' });
+});
+
+
 app.use('/user', UserRouter); 
 app.use('/video', VideoRouter);
 app.use('/channel', authToken, ChannelRouter);
