@@ -20,7 +20,7 @@ connectToDatabase();
 // Middleware
 app.use(express.json());
 
-const allowedOrigins = ['http://localhost:5173', 'https://your-frontend-domain.com','https://youtube-frontend-gray.vercel.app/'];
+const allowedOrigins = ['http://localhost:5173', 'https://you-tube-frontend-ashen.vercel.app/'];
 app.use(
   cors({
     origin: function (origin, callback) {
