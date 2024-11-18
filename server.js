@@ -12,7 +12,7 @@ const authToken = require('./middlewire/authMiddlewire');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 'https://you-tube-frontend-ashen.vercel.app/';
+const PORT = process.env.PORT || 'https://youtube-backend-gray.vercel.app/';
 
 // Connect to the database
 connectToDatabase();
