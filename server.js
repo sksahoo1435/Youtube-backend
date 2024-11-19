@@ -12,7 +12,7 @@ const authToken = require('./middlewire/authMiddlewire');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 'https://youtube-backend-gray.vercel.app/';
+const PORT = process.env.PORT || 3000; // Fix: Use a valid port number
 
 // Connect to the database
 connectToDatabase();
@@ -20,7 +20,12 @@ connectToDatabase();
 // Middleware
 app.use(express.json());
 
-const allowedOrigins = ['http://localhost:5173', 'https://you-tube-frontend-ashen.vercel.app/'];
+// CORS setup
+const allowedOrigins = [
+  'http://localhost:5173', // Local development frontend
+  'https://you-tube-frontend-ashen.vercel.app', // Deployed frontend
+];
+
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -30,20 +35,22 @@ app.use(
         callback(new Error('Not allowed by CORS'));
       }
     },
-    credentials: true,
+    credentials: true, // Allow cookies to be sent with requests
   })
 );
 
+// Test route
 app.get('/', (req, res) => {
-    res.status(200).json({ message: 'YouTube Backend is running successfully.' });
+  res.status(200).json({ message: 'YouTube Backend is running successfully.' });
 });
 
-
-app.use('/user', UserRouter); 
+// API routes
+app.use('/user', UserRouter);
 app.use('/video', VideoRouter);
 app.use('/channel', authToken, ChannelRouter);
 app.use('/comment', authToken, CommentRouter);
 
+// Start the server
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`); // Adjusted console message
 });
