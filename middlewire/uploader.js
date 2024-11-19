@@ -6,7 +6,7 @@ require('dotenv').config();
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
-    api_secret: process.env.API_KEY_SECRET
+    api_secret: process.env.API_KEY_SECRET,
 });
 
 const storage = new CloudinaryStorage({
@@ -22,24 +22,32 @@ const storage = new CloudinaryStorage({
             folder = 'images';
             resource_type = 'image';
         } else {
-            throw new Error("Unsupported File Type.");
+            throw new Error('Unsupported File Type.');
         }
 
         return {
             folder: folder,
             resource_type: resource_type,
-            quality: 'auto:low'
+            quality: 'auto:low',
         };
-    }
+    },
+});
+
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 9 * 1024 * 1024,
+    },
 });
 
 const deleteFromCloudinary = async (publicId, resourceType = 'video') => {
     try {
-
         const result = await cloudinary.uploader.destroy(publicId, { resource_type: resourceType });
 
         if (result.result === 'not found') {
-            console.error(`Resource with publicId ${publicId} and resource_type ${resourceType} was not found in Cloudinary.`);
+            console.error(
+                `Resource with publicId ${publicId} and resource_type ${resourceType} was not found in Cloudinary.`
+            );
         } else {
             console.log('Cloudinary deletion result:', publicId, result);
         }
@@ -54,17 +62,15 @@ const deleteFromCloudinary = async (publicId, resourceType = 'video') => {
 const generateDownloadUrl = (publicId, resourceType) => {
     return cloudinary.url(publicId, {
         resource_type: resourceType,
-        flags: 'attachment'
+        flags: 'attachment',
     });
 };
-
-
-const upload = multer({ storage: storage });
 
 const uploadFields = upload.fields([
     { name: 'thumbnail', maxCount: 1 },
     { name: 'video', maxCount: 1 },
     { name: 'avatar', maxCount: 1 },
-    { name: 'channelBanner', maxCount: 1 }])
+    { name: 'channelBanner', maxCount: 1 },
+]);
 
 module.exports = { uploadFields, deleteFromCloudinary, generateDownloadUrl };
