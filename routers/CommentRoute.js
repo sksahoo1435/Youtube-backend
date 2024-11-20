@@ -1,11 +1,13 @@
 const express = require('express');
 const { AddComments, getComments, getCommentById, updateComment, deleteComment } = require('../controller/CommentController');
 const CommentRouter = express.Router();
+const authToken = require('../middlewire/authMiddlewire')
 
-CommentRouter.post('/', AddComments)
+
 CommentRouter.get('/all/:videoId', getComments)
 CommentRouter.get('/:id', getCommentById)
-CommentRouter.put('/:id', updateComment)
-CommentRouter.delete('/:id', deleteComment)
+CommentRouter.post('/', authToken, AddComments)
+CommentRouter.put('/:id', authToken, updateComment)
+CommentRouter.delete('/:id', authToken, deleteComment)
 
 module.exports = CommentRouter;

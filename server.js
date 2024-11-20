@@ -47,8 +47,8 @@ app.get('/', (req, res) => {
 // API routes
 app.use('/user', UserRouter);
 app.use('/video', VideoRouter);
+app.use('/comment', CommentRouter);
 app.use('/channel', authToken, ChannelRouter);
-app.use('/comment', authToken, CommentRouter);
 
 // Start the server
 app.listen(PORT, () => {
